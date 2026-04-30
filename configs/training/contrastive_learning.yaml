@@ -1,0 +1,50 @@
+# @package training
+
+_target_: src.training.trainer.DomainAdaptationTrainer
+
+# Training configuration
+num_epochs: 50
+learning_rate: 1e-4
+weight_decay: 0.01
+warmup_steps: 1000
+gradient_clip_norm: 1.0
+
+# Optimizer
+optimizer:
+  type: "AdamW"
+  lr: ${training.learning_rate}
+  weight_decay: ${training.weight_decay}
+  betas: [0.9, 0.999]
+  eps: 1e-8
+
+# Scheduler
+scheduler:
+  type: "cosine_with_warmup"
+  warmup_steps: ${training.warmup_steps}
+  num_training_steps: 10000
+
+# Loss configuration
+loss_config:
+  contrastive_weight: 1.0
+  domain_adaptation_weight: 0.5
+  regularization_weight: 0.01
+
+# Checkpointing
+checkpoint:
+  save_every_n_epochs: 5
+  save_best: true
+  monitor_metric: "val_loss"
+  mode: "min"
+  max_checkpoints: 3
+
+# Early stopping
+early_stopping:
+  patience: 10
+  min_delta: 0.001
+  monitor_metric: "val_loss"
+  mode: "min"
+
+# Validation
+validation:
+  frequency: 1  # every N epochs
+  metrics: ["contrastive_loss", "domain_alignment", "retrieval_accuracy"]

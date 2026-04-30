@@ -1,0 +1,42 @@
+# @package model
+
+_target_: src.models.clip_domain_adaptation.CLIPDomainAdaptationModel
+
+# Base model configuration
+base_model_name: "openai/clip-vit-base-patch32"
+freeze_base_model: false
+
+# Domain adaptation configuration
+adaptation_method: "adapter"  # adapter, fine_tune, contrastive_only
+adapter_config:
+  hidden_size: 512
+  adapter_size: 64
+  adapter_layers: [6, 8, 10]  # Which transformer layers to add adapters to
+  dropout: 0.1
+
+# Contrastive learning configuration
+contrastive_config:
+  temperature: 0.07
+  use_hard_negatives: true
+  hard_negative_ratio: 0.5
+  margin: 0.2
+
+# Domain-specific configuration
+source_domain: "general"
+target_domain: "medical"
+domain_embedding_size: 128
+
+# Model architecture
+image_encoder:
+  type: "vit"
+  patch_size: 32
+  hidden_size: 768
+  num_attention_heads: 12
+  num_hidden_layers: 12
+
+text_encoder:
+  type: "transformer"
+  vocab_size: 49408
+  hidden_size: 512
+  num_attention_heads: 8
+  num_hidden_layers: 12

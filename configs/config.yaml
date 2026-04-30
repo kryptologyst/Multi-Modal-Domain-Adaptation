@@ -1,0 +1,33 @@
+# @package _global_
+
+defaults:
+  - model: clip_domain_adaptation
+  - data: medical_synthetic
+  - training: contrastive_learning
+  - evaluation: domain_adaptation_metrics
+  - _self_
+
+# Global settings
+seed: 42
+device: auto  # auto, cuda, mps, cpu
+mixed_precision: true
+compile_model: false
+
+# Paths
+data_dir: ${oc.env:DATA_DIR,data}
+output_dir: ${oc.env:OUTPUT_DIR,outputs}
+checkpoint_dir: ${output_dir}/checkpoints
+log_dir: ${output_dir}/logs
+asset_dir: ${output_dir}/assets
+
+# Logging
+log_level: INFO
+use_tensorboard: true
+use_wandb: false
+wandb_project: multimodal-domain-adaptation
+
+# Safety and disclaimers
+safety_disclaimer: |
+  This model is for research and educational purposes only.
+  Not intended for medical diagnosis or clinical use.
+  Results should be validated by qualified professionals.

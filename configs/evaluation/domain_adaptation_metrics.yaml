@@ -1,0 +1,48 @@
+# @package evaluation
+
+_target_: src.eval.domain_adaptation_evaluator.DomainAdaptationEvaluator
+
+# Evaluation metrics
+metrics:
+  retrieval:
+    - "recall_at_1"
+    - "recall_at_5"
+    - "recall_at_10"
+    - "median_rank"
+    - "mean_rank"
+  
+  domain_adaptation:
+    - "domain_alignment_score"
+    - "domain_separation_score"
+    - "transfer_accuracy"
+  
+  contrastive:
+    - "contrastive_loss"
+    - "alignment_loss"
+    - "uniformity_loss"
+
+# Evaluation configuration
+batch_size: 64
+num_workers: 4
+compute_embeddings: true
+save_embeddings: false
+
+# Cross-modal evaluation
+cross_modal_evaluation:
+  image_to_text: true
+  text_to_image: true
+  bidirectional: true
+
+# Domain-specific evaluation
+domain_evaluation:
+  source_domain_only: false
+  target_domain_only: false
+  cross_domain: true
+  domain_generalization: true
+
+# Visualization
+visualization:
+  t_sne: true
+  umap: false
+  attention_maps: true
+  similarity_matrices: true
